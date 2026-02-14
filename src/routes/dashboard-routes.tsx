@@ -1,25 +1,21 @@
 import { RouteObject } from "react-router-dom";
-import { Dashboard } from "../pages/Dashboard/Dashboard";
-import { Settings } from "../pages/Settings/Settings";
-import { Users } from "../pages/Users/Users";
-import { Layout } from "../components/Layout/Layout";
+import { Dashboard, Layout, Settings, Users } from "../pages";
 
 export const dashboardRoutes: RouteObject[] = [
   {
     path: "/",
     element: <Layout />,
     children: [
-      // ← HAMISI BURDA
       {
         index: true,
         element: <Dashboard />,
       },
       {
-        path: "settings", // ← Layout children-də
+        path: "settings",
         element: <Settings />,
       },
       {
-        path: "users", // ← Layout children-də
+        path: "users",
         element: <Users />,
       },
     ],

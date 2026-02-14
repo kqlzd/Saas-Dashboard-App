@@ -10,6 +10,7 @@ export const Layout = () => {
   const toggleSideBar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
+
   return (
     <Grid
       templateAreas={`

@@ -1,4 +1,4 @@
-import { BrowserRouter } from "react-router-dom";
+// import { BrowserRouter } from "react-router-dom";
 import { useRoutes } from "react-router-dom";
 import { dashboardRoutes } from "./routes/dashboard-routes";
 
