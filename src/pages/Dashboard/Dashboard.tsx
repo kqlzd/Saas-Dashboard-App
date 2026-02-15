@@ -7,36 +7,16 @@ import {
   HStack,
   VStack,
 } from "@chakra-ui/react";
-import { Users, Activity, DollarSign, TrendingUp } from "lucide-react";
+import { TrendingUp } from "lucide-react";
+import { stats } from "../../consts/consts";
+import dayjs from "dayjs";
+import { UserGrowthChart } from "../../components/Charts/UserGrowthChart";
+import { UserDistributionChart } from "../../components/Charts/UserDistributionChart";
 
 export const Dashboard = () => {
-  const stats = [
-    {
-      title: "Total Users",
-      value: "150",
-      icon: Users,
-      color: "blue",
-      trend: "+12%",
-    },
-    {
-      title: "Active Sessions",
-      value: "42",
-      icon: Activity,
-      color: "green",
-      trend: "+8%",
-    },
-    {
-      title: "Revenue",
-      value: "$12,450",
-      icon: DollarSign,
-      color: "purple",
-      trend: "+23%",
-    },
-  ];
-
+  const date = dayjs().format("DD/MM/YYYY");
   return (
     <Box>
-      {/* Header */}
       <Box mb={8}>
         <Heading size="2xl" mb={2}>
           Dashboard
@@ -44,9 +24,9 @@ export const Dashboard = () => {
         <Text color="gray.600" fontSize="lg">
           Welcome back! Here's what's happening today.
         </Text>
+        {date}
       </Box>
 
-      {/* Stats Cards */}
       <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} gap={6} mb={8}>
         {stats.map((stat) => {
           const Icon = stat.icon;
@@ -99,7 +79,11 @@ export const Dashboard = () => {
         })}
       </SimpleGrid>
 
-      {/* Recent Activity */}
+      <SimpleGrid columns={{ base: 1, lg: 2 }} gap={6} mb={8}>
+        <UserGrowthChart />
+        <UserDistributionChart />
+      </SimpleGrid>
+
       <Card.Root
         bg="white"
         borderRadius="xl"
