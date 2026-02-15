@@ -41,8 +41,6 @@ export const Navbar = ({ toggleSideBar }: NavbarProps) => {
           </IconButton>
         </HStack>
 
-        <Input placeholder="Search..." variant="outline" bg="gray.50" />
-
         <HStack gap={4}>
           <Box position="relative">
             <IconButton aria-label="Notifications" variant="ghost" size="md">
