@@ -3,7 +3,7 @@ import { Sun, Moon } from "lucide-react";
 import { useState } from "react";
 
 export const ToggleButton = () => {
-  const [dark, setDark] = useState(false);
+  const [dark, setDark] = useState<boolean>(false);
 
   return (
     <IconButton
