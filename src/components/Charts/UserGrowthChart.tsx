@@ -7,7 +7,7 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from "recharts";
-import { Box, Heading, Card } from "@chakra-ui/react";
+import { Heading, Card } from "@chakra-ui/react";
 
 const data = [
   { month: "Jan", users: 40 },
