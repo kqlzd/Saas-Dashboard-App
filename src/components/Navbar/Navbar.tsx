@@ -27,11 +27,7 @@ export const Navbar = ({ toggleSideBar }: NavbarProps) => {
       height="64px"
     >
       <Flex justifyContent={"space-between"} align={"center"} height={"100%"}>
-        <ToggleButton />
-        <HStack gap={4}>
-          <Heading size="md" color="gray.800">
-            Dashboard
-          </Heading>
+        <HStack gap={3}>
           <IconButton
             aria-label="Toggle sidebar"
             onClick={toggleSideBar}
@@ -39,9 +35,13 @@ export const Navbar = ({ toggleSideBar }: NavbarProps) => {
           >
             <Menu size={20} />
           </IconButton>
+          <Heading size="md" color="gray.800">
+            Dashboard
+          </Heading>
         </HStack>
 
         <HStack gap={4}>
+          <ToggleButton />
           <Box position="relative">
             <IconButton aria-label="Notifications" variant="ghost" size="md">
               <BellIcon />

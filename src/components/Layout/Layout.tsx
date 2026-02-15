@@ -16,8 +16,8 @@ export const Layout = () => {
         "navbar navbar"
         "sidebar content"
       `}
-      templateRows="64px 2fr"
-      templateColumns="240px 2fr"
+      templateRows="64px 1fr"
+      templateColumns="240px 1fr"
       height="100vh"
       transition="all 0.3s ease-in-out"
     >
