@@ -1,7 +1,7 @@
 import { Dialog, Button, VStack, HStack, Field, Input } from "@chakra-ui/react";
-import { useState, useEffect } from "react";
 import { Edit } from "lucide-react";
 import { IUser } from "../../data/mockUsers";
+import { useEditUserModal } from "../../hooks/useEditUserModal";
 
 interface EditUserModalProps {
   isOpen: boolean;
@@ -16,28 +16,8 @@ export const EditUserModal = ({
   onUpdate,
   user,
 }: EditUserModalProps) => {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-
-  useEffect(() => {
-    if (user) {
-      setName(user.name);
-      setEmail(user.email);
-    }
-  }, [user]);
-
-  const handleSubmit = () => {
-    if (name && email && user) {
-      onUpdate(user.id, { name, email });
-      onClose();
-    }
-  };
-
-  const handleClose = () => {
-    setName("");
-    setEmail("");
-    onClose();
-  };
+  const { handleSubmit, handleClose, setName, setEmail, name, email, isValid } =
+    useEditUserModal({ onUpdate, onClose, user });
 
   if (!user) return null;
 
@@ -101,7 +81,7 @@ export const EditUserModal = ({
                 onClick={handleSubmit}
                 size="lg"
                 borderRadius="lg"
-                disabled={!name || !email}
+                disabled={!isValid}
               >
                 Save Changes
               </Button>

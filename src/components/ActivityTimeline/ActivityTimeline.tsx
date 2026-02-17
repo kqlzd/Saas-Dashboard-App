@@ -28,11 +28,17 @@ const activities = [
   },
 ];
 
-export const ActivityTimeline = () => {
+export const ActivityTimeline = ({ isDark }: { isDark: boolean }) => {
   return (
-    <Card.Root bg="white" borderRadius="xl" boxShadow="sm" borderWidth="1px">
+    <Card.Root
+      bg={isDark ? "gray.800" : "white"}
+      borderRadius="xl"
+      boxShadow="sm"
+      borderWidth="1px"
+      borderColor={isDark ? "gray.700" : "gray.100"}
+    >
       <Card.Body p={6}>
-        <Heading size="md" mb={6}>
+        <Heading size="md" mb={6} color={isDark ? "white" : "gray.900"}>
           Recent Activity
         </Heading>
 
@@ -43,21 +49,29 @@ export const ActivityTimeline = () => {
               <HStack key={activity.id} gap={4} align="start">
                 <Box
                   p={2}
-                  bg={`${activity.color}.50`}
+                  bg={isDark ? `${activity.color}.900` : `${activity.color}.50`}
                   borderRadius="lg"
-                  color={`${activity.color}.600`}
+                  color={`${activity.color}.400`}
                 >
                   <Icon size={18} />
                 </Box>
 
                 <VStack align="start" gap={0} flex={1}>
-                  <Text fontWeight="medium" fontSize="sm">
+                  <Text
+                    fontWeight="medium"
+                    fontSize="sm"
+                    color={isDark ? "white" : "gray.900"}
+                  >
                     {activity.action}
                   </Text>
-                  <Text fontSize="sm" color="gray.600">
+                  <Text fontSize="sm" color={isDark ? "gray.400" : "gray.600"}>
                     {activity.user}
                   </Text>
-                  <HStack gap={1} fontSize="xs" color="gray.500">
+                  <HStack
+                    gap={1}
+                    fontSize="xs"
+                    color={isDark ? "gray.500" : "gray.500"}
+                  >
                     <Clock size={12} />
                     <Text>{activity.time}</Text>
                   </HStack>

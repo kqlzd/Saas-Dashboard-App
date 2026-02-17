@@ -1,24 +1,32 @@
+import { Card, Heading } from "@chakra-ui/react";
 import {
+  ResponsiveContainer,
   PieChart,
   Pie,
   Cell,
-  ResponsiveContainer,
-  Legend,
   Tooltip,
+  Legend,
 } from "recharts";
-import { Heading, Card } from "@chakra-ui/react";
-import { COLORS } from "../../consts/consts";
 
 const data = [
-  { name: "Active", value: 120 },
-  { name: "Inactive", value: 30 },
+  { name: "Active", value: 540 },
+  { name: "Inactive", value: 320 },
+  { name: "Pending", value: 140 },
 ];
 
-export const UserDistributionChart = () => {
+const COLORS = ["#22c55e", "#94a3b8", "#f59e0b"];
+
+export const UserDistributionChart = ({ isDark }: { isDark: boolean }) => {
   return (
-    <Card.Root bg="white" borderRadius="xl" boxShadow="sm" borderWidth="1px">
+    <Card.Root
+      bg={isDark ? "gray.800" : "white"}
+      borderRadius="xl"
+      boxShadow="sm"
+      borderWidth="1px"
+      borderColor={isDark ? "gray.700" : "gray.100"}
+    >
       <Card.Body p={6}>
-        <Heading size="md" mb={6}>
+        <Heading size="md" mb={6} color={isDark ? "white" : "gray.900"}>
           User Status
         </Heading>
         <ResponsiveContainer width="100%" height={300}>
@@ -39,8 +47,21 @@ export const UserDistributionChart = () => {
                 <Cell key={`cell-${index}`} fill={COLORS[index]} />
               ))}
             </Pie>
-            <Tooltip />
-            <Legend />
+            <Tooltip
+              contentStyle={{
+                backgroundColor: isDark ? "#2D3748" : "white",
+                border: `1px solid ${isDark ? "#4A5568" : "#e2e8f0"}`,
+                borderRadius: "8px",
+                color: isDark ? "white" : "black",
+              }}
+            />
+            <Legend
+              formatter={(value) => (
+                <span style={{ color: isDark ? "#CBD5E0" : "#4A5568" }}>
+                  {value}
+                </span>
+              )}
+            />
           </PieChart>
         </ResponsiveContainer>
       </Card.Body>

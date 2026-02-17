@@ -7,8 +7,8 @@ import {
   Text,
   Box,
 } from "@chakra-ui/react";
-import { useState } from "react";
 import { UserPlus } from "lucide-react";
+import { useAddUserForm } from "../../hooks/useAddUser";
 
 interface AddUserModalProps {
   isOpen: boolean;
@@ -17,17 +17,10 @@ interface AddUserModalProps {
 }
 
 export const AddUserModal = ({ isOpen, onClose, onAdd }: AddUserModalProps) => {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-
-  const handleSubmit = () => {
-    if (name && email) {
-      onAdd({ name, email });
-      setName("");
-      setEmail("");
-      onClose();
-    }
-  };
+  const { name, email, setName, setEmail, handleSubmit } = useAddUserForm({
+    onAdd,
+    onClose,
+  });
 
   return (
     <Dialog.Root open={isOpen} onOpenChange={(e) => !e.open && onClose()}>
