@@ -6,59 +6,86 @@ import {
   VStack,
   Text,
   Badge,
-  Avatar,
   Button,
 } from "@chakra-ui/react";
-import { useUserStore } from "../../store";
-import { useNavigate } from "react-router-dom";
 
-export const RecentUsers = () => {
-  const users = useUserStore((state) => state.users);
+import { useNavigate } from "react-router-dom";
+import { useCustomerStore } from "../../store";
+import { useAuth } from "../../hooks/useAuth";
+
+export const RecentUsers = ({ isDark }: { isDark: boolean }) => {
+  const { user } = useAuth();
+  const { getCustomersByUserId } = useCustomerStore();
   const navigate = useNavigate();
 
-  const recentUsers = users.slice(-5).reverse();
+  const customers = user ? getCustomersByUserId(user.id) : [];
+  const recentCustomers = customers.slice(-5).reverse();
 
   return (
-    <Card.Root bg="white" borderRadius="xl" boxShadow="sm" borderWidth="1px">
+    <Card.Root
+      bg={isDark ? "gray.800" : "white"}
+      borderRadius="xl"
+      boxShadow="sm"
+      borderWidth="1px"
+      borderColor={isDark ? "gray.700" : "gray.100"}
+    >
       <Card.Body p={6}>
         <HStack justify="space-between" mb={6}>
-          <Heading size="md">Recent Users</Heading>
+          <Heading size="md" color={isDark ? "white" : "gray.900"}>
+            Recent Customers
+          </Heading>
           <Button variant="ghost" size="sm" onClick={() => navigate("/users")}>
             View All
           </Button>
         </HStack>
 
         <VStack align="stretch" gap={3}>
-          {recentUsers.length === 0 ? (
+          {recentCustomers.length === 0 ? (
             <Text color="gray.500" textAlign="center" py={4}>
-              No users yet
+              No customers yet
             </Text>
           ) : (
-            recentUsers.map((user) => (
+            recentCustomers.map((customer) => (
               <HStack
-                key={user.id}
+                key={customer.id}
                 p={3}
                 borderRadius="lg"
-                _hover={{ bg: "gray.50" }}
+                _hover={{ bg: isDark ? "gray.700" : "gray.50" }}
                 transition="background 0.2s"
               >
-                <Avatar.Root size="sm">
-                  <Avatar.Fallback bg="blue.500" color="white">
-                    {user.name.charAt(0).toUpperCase()}
-                  </Avatar.Fallback>
-                </Avatar.Root>
+                <Box
+                  w={10}
+                  h={10}
+                  bg="blue.500"
+                  borderRadius="full"
+                  display="flex"
+                  alignItems="center"
+                  justifyContent="center"
+                  color="white"
+                  fontWeight="bold"
+                >
+                  {customer.name.charAt(0).toUpperCase()}
+                </Box>
 
                 <VStack align="start" gap={0} flex={1}>
-                  <Text fontWeight="medium" fontSize="sm">
-                    {user.name}
+                  <Text
+                    fontWeight="medium"
+                    fontSize="sm"
+                    color={isDark ? "white" : "gray.900"}
+                  >
+                    {customer.name}
                   </Text>
-                  <Text fontSize="xs" color="gray.600">
-                    {user.email}
+                  <Text fontSize="xs" color={isDark ? "gray.400" : "gray.600"}>
+                    {customer.email}
                   </Text>
                 </VStack>
 
-                <Badge colorScheme="green" borderRadius="md" fontSize="xs">
-                  Active
+                <Badge
+                  colorScheme={customer.status === "active" ? "green" : "gray"}
+                  borderRadius="md"
+                  fontSize="xs"
+                >
+                  {customer.status}
                 </Badge>
               </HStack>
             ))

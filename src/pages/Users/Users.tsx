@@ -1,30 +1,52 @@
 import { Button, Box, Heading, HStack, Text, VStack } from "@chakra-ui/react";
 import { Table } from "../../components/Table/Table";
-import { useUserStore } from "../../store";
 import { useState } from "react";
 import { AddUserModal } from "../../components/AddUserModal/AddUserModal";
 import { EditUserModal } from "../../components/EditUserModal/EditUserModal";
-import { UserPlus, Users as UsersIcon } from "lucide-react";
-import { IUser } from "../../data/mockUsers";
+import { Users as UsersIcon } from "lucide-react";
+import { ICustomer } from "../../data/mockUsers";
+import { useCustomerStore } from "../../store";
+import { useAuth } from "../../hooks/useAuth";
+import { useTheme } from "../../hooks/useThemeContext";
 
 export const Users = () => {
-  const { users, deleteUser, addUser, updateUser } = useUserStore();
-  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
-  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-  const [selectedUser, setSelectedUser] = useState<IUser | null>(null);
+  const { user } = useAuth();
+  const { getCustomersByUserId, deleteCustomer, addCustomer, updateCustomer } =
+    useCustomerStore();
+  const { isDark } = useTheme();
 
-  const handleEditUser = (user: IUser) => {
-    setSelectedUser(user);
+  const customers = user ? getCustomersByUserId(user.id) : [];
+
+  const [isAddModalOpen, setIsAddModalOpen] = useState<boolean>(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState<boolean>(false);
+  const [selectedCustomer, setSelectedCustomer] = useState<ICustomer | null>(
+    null,
+  );
+
+  const handleEditCustomer = (customer: ICustomer) => {
+    setSelectedCustomer(customer);
     setIsEditModalOpen(true);
+  };
+
+  const handleAddCustomer = (customerData: { name: string; email: string }) => {
+    if (user) {
+      addCustomer({
+        ...customerData,
+        userId: user.id,
+        status: "active",
+      });
+    }
   };
 
   return (
     <Box>
       <HStack justify="space-between" mb={8}>
         <VStack align="start" gap={1}>
-          <Heading size="2xl">Users</Heading>
-          <Text color="gray.600" fontSize="lg">
-            Manage your team members and their roles
+          <Heading size="2xl" color={isDark ? "white" : "gray.900"}>
+            Customers
+          </Heading>
+          <Text color={isDark ? "gray.400" : "gray.600"} fontSize="lg">
+            Manage your customers
           </Text>
         </VStack>
         <Button
@@ -33,39 +55,45 @@ export const Users = () => {
           onClick={() => setIsAddModalOpen(true)}
           boxShadow="sm"
         >
-          Add User
+          Add Customer
         </Button>
       </HStack>
 
       <HStack
         mb={6}
         p={4}
-        bg="blue.50"
+        bg={isDark ? "blue.900" : "blue.50"}
         borderRadius="lg"
         borderLeft="4px"
         borderColor="blue.500"
       >
-        <UsersIcon size={20} color="var(--chakra-colors-blue-600)" />
-        <Text fontWeight="medium" color="blue.900">
-          Total Users: <strong>{users.length}</strong>
+        <UsersIcon size={20} color={isDark ? "#63B3ED" : "#2B6CB0"} />
+        <Text fontWeight="medium" color={isDark ? "blue.200" : "blue.900"}>
+          Total Customers: <strong>{customers.length}</strong>
         </Text>
       </HStack>
 
-      <Table data={users} deleteUser={deleteUser} onEditUser={handleEditUser} />
+      <Table
+        data={customers}
+        deleteUser={deleteCustomer}
+        onEditUser={handleEditCustomer}
+        isDark={isDark}
+      />
+
       <AddUserModal
         isOpen={isAddModalOpen}
         onClose={() => setIsAddModalOpen(false)}
-        onAdd={addUser}
+        onAdd={handleAddCustomer}
       />
 
       <EditUserModal
         isOpen={isEditModalOpen}
         onClose={() => {
           setIsEditModalOpen(false);
-          setSelectedUser(null);
+          setSelectedCustomer(null);
         }}
-        onUpdate={updateUser}
-        user={selectedUser}
+        onUpdate={updateCustomer}
+        user={selectedCustomer}
       />
     </Box>
   );

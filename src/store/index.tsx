@@ -1,29 +1,42 @@
 import { create } from "zustand";
-import { IUser, mockUsers } from "../data/mockUsers";
+import { ICustomer, mockCustomers } from "../data/mockUsers";
 
-interface UserStore {
-  users: IUser[];
-  addUser: (user: Omit<IUser, "id">) => void;
-  updateUser: (id: number, updatedData: Omit<IUser, "id">) => void;
-  deleteUser: (id: number) => void;
+interface CustomerStore {
+  customers: ICustomer[];
+  addCustomer: (customer: Omit<ICustomer, "id" | "createdAt">) => void;
+  updateCustomer: (id: number, updatedData: Partial<ICustomer>) => void;
+  deleteCustomer: (id: number) => void;
+  getCustomersByUserId: (userId: string) => ICustomer[];
 }
 
-export const useUserStore = create<UserStore>((set) => ({
-  users: mockUsers,
-  updateUser: (id, updatedData) =>
+export const useCustomerStore = create<CustomerStore>((set, get) => ({
+  customers: mockCustomers,
+
+  getCustomersByUserId: (userId: string) => {
+    return get().customers.filter((customer) => customer.userId === userId);
+  },
+
+  addCustomer: (customer) =>
     set((state) => ({
-      users: state.users.map((user) =>
-        user.id === id ? { ...user, ...updatedData } : user,
+      customers: [
+        ...state.customers,
+        {
+          ...customer,
+          id: Date.now(),
+          createdAt: new Date(),
+        },
+      ],
+    })),
+
+  updateCustomer: (id, updatedData) =>
+    set((state) => ({
+      customers: state.customers.map((customer) =>
+        customer.id === id ? { ...customer, ...updatedData } : customer,
       ),
     })),
 
-  addUser: (user) =>
+  deleteCustomer: (id) =>
     set((state) => ({
-      users: [...state.users, { ...user, id: Date.now() }],
-    })),
-
-  deleteUser: (id) =>
-    set((state) => ({
-      users: state.users.filter((u) => u.id !== id),
+      customers: state.customers.filter((c) => c.id !== id),
     })),
 }));
