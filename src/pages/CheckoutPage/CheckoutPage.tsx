@@ -6,7 +6,6 @@ import {
 } from "@stripe/react-stripe-js";
 import { StripeProvider } from "../../providers/stripe-provider";
 import { Button } from "@chakra-ui/react";
-import { Form } from "react-router-dom";
 
 const CheckoutForm = () => {
   const stripe = useStripe();
@@ -30,12 +29,12 @@ const CheckoutForm = () => {
   };
 
   return (
-    <Form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit}>
       <PaymentElement />
       <Button type="submit" disabled={!stripe || !elements}>
         Pay
       </Button>
-    </Form>
+    </form>
   );
 };
 
