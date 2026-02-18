@@ -20,8 +20,13 @@ type TProps = {
   isDark?: boolean;
 };
 
-export const Table = ({ data, deleteUser, onEditUser, isDark = false }: TProps) => {
-  const [search, setSearch] = useState("");
+export const Table = ({
+  data,
+  deleteUser,
+  onEditUser,
+  isDark = false,
+}: TProps) => {
+  const [search, setSearch] = useState<string>("");
 
   const filterData = data.filter((item) =>
     item.name.toLowerCase().includes(search.toLowerCase()),
@@ -31,7 +36,11 @@ export const Table = ({ data, deleteUser, onEditUser, isDark = false }: TProps) 
     <Box>
       <Box mb={6}>
         <Field.Root maxW="400px">
-          <InputGroup startElement={<Search size={18} color={isDark ? "#194177" : "#A0AEC0"} />}>
+          <InputGroup
+            startElement={
+              <Search size={18} color={isDark ? "#194177" : "#A0AEC0"} />
+            }
+          >
             <Input
               type="text"
               placeholder="Search users..."
@@ -47,7 +56,6 @@ export const Table = ({ data, deleteUser, onEditUser, isDark = false }: TProps) 
       </Box>
 
       <Box
-        bg={isDark ? "gray.800" : "gray.50"}
         borderRadius="xl"
         boxShadow="sm"
         borderWidth="1px"
@@ -55,8 +63,8 @@ export const Table = ({ data, deleteUser, onEditUser, isDark = false }: TProps) 
         overflow="hidden"
       >
         <ChakraTable.Root>
-          <ChakraTable.Header bg={isDark ? "gray.700" : "gray.50"}>
-            <ChakraTable.Row>
+          <ChakraTable.Header>
+            <ChakraTable.Row bg={isDark ? "gray.800" : "white"}>
               <ChakraTable.ColumnHeader
                 fontWeight="semibold"
                 color={isDark ? "gray.300" : "gray.700"}
@@ -105,11 +113,15 @@ export const Table = ({ data, deleteUser, onEditUser, isDark = false }: TProps) 
             </ChakraTable.Row>
           </ChakraTable.Header>
 
-          <ChakraTable.Body>
+          <ChakraTable.Body bg={isDark ? "gray.800" : "white"}>
             {filterData.length === 0 ? (
-              <ChakraTable.Row>
+              <ChakraTable.Row bg={isDark ? "gray.800" : "white"}>
                 <ChakraTable.Cell colSpan={5}>
-                  <Text textAlign="center" color="gray.500" py={8}>
+                  <Text
+                    textAlign="center"
+                    color={isDark ? "gray.400" : "gray.500"}
+                    py={8}
+                  >
                     No users found
                   </Text>
                 </ChakraTable.Cell>
@@ -118,6 +130,7 @@ export const Table = ({ data, deleteUser, onEditUser, isDark = false }: TProps) 
               filterData.map((user) => (
                 <ChakraTable.Row
                   key={user.id}
+                  bg={isDark ? "gray.800" : "white"}
                   _hover={{ bg: isDark ? "gray.700" : "gray.50" }}
                   transition="background 0.2s"
                 >
@@ -128,8 +141,11 @@ export const Table = ({ data, deleteUser, onEditUser, isDark = false }: TProps) 
                       colorScheme="blue"
                       size="sm"
                       onClick={() => onEditUser(user)}
+                      _hover={{
+                        bg: isDark ? "blue.900" : "blue.50",
+                      }}
                     >
-                      <Edit size={16} />
+                      <Edit size={16} color={isDark ? "#63B3ED" : "#3182CE"} />
                     </IconButton>
                     <IconButton
                       aria-label="Delete user"
@@ -141,7 +157,10 @@ export const Table = ({ data, deleteUser, onEditUser, isDark = false }: TProps) 
                         bg: isDark ? "red.900" : "red.50",
                       }}
                     >
-                      <Trash2 size={16} />
+                      <Trash2
+                        size={16}
+                        color={isDark ? "#FC8181" : "#E53E3E"}
+                      />
                     </IconButton>
                   </ChakraTable.Cell>
                   <ChakraTable.Cell>
@@ -153,10 +172,13 @@ export const Table = ({ data, deleteUser, onEditUser, isDark = false }: TProps) 
                       #{user.id}
                     </Badge>
                   </ChakraTable.Cell>
-                  <ChakraTable.Cell fontWeight="medium" color={isDark ? "white" : "gray.900"}>
+                  <ChakraTable.Cell
+                    fontWeight="medium"
+                    color={isDark ? "white" : "gray.900"}
+                  >
                     {user.name}
                   </ChakraTable.Cell>
-                  <ChakraTable.Cell color={isDark ? "gray.400" : "gray.600"}>
+                  <ChakraTable.Cell color={isDark ? "white" : "gray.900"}>
                     {user.email}
                   </ChakraTable.Cell>
                   <ChakraTable.Cell>
