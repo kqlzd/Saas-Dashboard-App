@@ -2,9 +2,9 @@ import {
   BarChart,
   Home,
   Users,
-  FileText,
   Activity,
   DollarSign,
+  DollarSignIcon,
 } from "lucide-react";
 import { INavItem } from "../models/models";
 import { createContext } from "react";
@@ -14,7 +14,12 @@ export const NAV_ITEMS: INavItem[] = [
   { id: "dashboard", label: "Dashboard", icon: Home, link: "/" },
   { id: "analytics", label: "Analytics", icon: BarChart, link: "/analytics" },
   { id: "users", label: "Users", icon: Users, link: "/users" },
-  { id: "documents", label: "Documents", icon: FileText, link: "/documents" },
+  {
+    id: "checkout",
+    label: "Checkout",
+    icon: DollarSignIcon,
+    link: "/checkout",
+  },
 ];
 
 export const stats = [
