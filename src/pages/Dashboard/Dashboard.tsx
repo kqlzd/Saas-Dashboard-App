@@ -50,7 +50,6 @@ export const Dashboard = () => {
 
   return (
     <Box bg={isDark ? "gray.900" : "gray.50"} minH="100vh" p={6}>
-      {/* Başlıq */}
       <Box mb={8}>
         <Heading size="2xl" mb={2} color={isDark ? "white" : "gray.900"}>
           Dashboard
@@ -60,7 +59,6 @@ export const Dashboard = () => {
         </Text>
       </Box>
 
-      {/* Stat kartlar */}
       <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} gap={6} mb={8}>
         {stats.map((stat) => {
           const Icon = stat.icon;
@@ -117,13 +115,11 @@ export const Dashboard = () => {
         })}
       </SimpleGrid>
 
-      {/* Chartlar */}
       <SimpleGrid columns={{ base: 1, lg: 2 }} gap={6} mb={8}>
         <UserGrowthChart isDark={isDark} />
         <UserDistributionChart isDark={isDark} />
       </SimpleGrid>
 
-      {/* Widgetlər */}
       <SimpleGrid columns={{ base: 1, lg: 2 }} gap={6}>
         <RecentUsers isDark={isDark} />
         <ActivityTimeline isDark={isDark} />
